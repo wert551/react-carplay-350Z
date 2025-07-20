@@ -271,6 +271,7 @@ function Carplay({ receivingVideo, setReceivingVideo, settings, command, command
       />
     </div>
   </div>
-)
+  );
+}         
 
 export default React.memo(Carplay)
