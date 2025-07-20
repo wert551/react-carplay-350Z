@@ -34,6 +34,13 @@ fi
 
 echo "Building local AppImage from source…"
 
+if ! command -v npm >/dev/null 2>&1; then
+  echo "Node.js/npm not found; installing via NodeSource..."
+  # add NodeSource v18.x
+  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo bash -
+  sudo apt-get update
+  sudo apt-get install -y nodejs build-essential libgtk-3-dev
+fi
 # 1) Enter your cloned React-CarPlay directory
 cd "/home/$USER/react-carplay-350Z"
 
@@ -47,7 +54,7 @@ npm run build:armLinux
 cp dist/*.AppImage "/home/$USER/Desktop/Carplay.AppImage"
 chmod +x "/home/$USER/Desktop/Carplay.AppImage"
 
-echo "Build Complete"
+echo "Local AppImage built and placed on desktop."
 
 echo "Creating executable"
 sudo chmod +x /home/$USER/Desktop/Carplay.AppImage
