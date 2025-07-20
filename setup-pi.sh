@@ -55,23 +55,27 @@ npm install
 npm run build:armLinux
 
 # 4) Copy the generated AppImage to the desktop
+echo "Locating AppImage in dist/…"
+APPIMAGE=$(find dist -type f -name "*.AppImage" | head -n1)
+if [ -z "$APPIMAGE" ]; then
+  echo "No AppImage found under dist/, aborting."
+  exit 1
+fi
 mkdir -p "/home/$USER/Desktop"
-cp dist/*.AppImage "/home/$USER/Desktop/Carplay.AppImage"
+echo "Copying $APPIMAGE → ~/Desktop/Carplay.AppImage"
+cp "$APPIMAGE" "/home/$USER/Desktop/Carplay.AppImage"
 chmod +x "/home/$USER/Desktop/Carplay.AppImage"
+echo "AppImage on Desktop."
 
 echo "Local AppImage built and placed on desktop."
 
-echo "Creating executable"
-sudo chmod +x /home/$USER/Desktop/Carplay.AppImage
-
-echo "Creating Autostart File"
-sudo bash -c "cat > /etc/xdg/autostart/carplay.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Name=React CarPlay (350Z)
-Exec=/home/$USER/Desktop/Carplay.AppImage
-Terminal=false
-X-GNOME-Autostart-enabled=true
-EOF"
+echo "Adding CarPlay to LX autostart…"
+AUTOSTART_FILE="$HOME/.config/lxsession/LXDE-pi/autostart"
+mkdir -p "$(dirname "$AUTOSTART_FILE")"
+# Ensure we only add it once
+grep -qxF "@/home/$USER/Desktop/Carplay.AppImage" "$AUTOSTART_FILE" 2>/dev/null \
+  || echo "@/home/$USER/Desktop/Carplay.AppImage" >> "$AUTOSTART_FILE"
+chown -R "$USER:$USER" "$(dirname "$AUTOSTART_FILE")"
+echo " Autostart entry created in $AUTOSTART_FILE."
 
 echo "All Done"
