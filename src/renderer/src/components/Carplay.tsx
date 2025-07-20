@@ -214,73 +214,63 @@ function Carplay({ receivingVideo, setReceivingVideo, settings, command, command
   const isLoading = !isPlugged
 
   return (
-    <div
-      style={pathname === '/' ? { height: '100%', touchAction: 'none' } : { height: '1px' }}
-      id={'main'}
-      className="App"
-      ref={mainElem}
-    >
-      {(deviceFound === false || isLoading) && pathname === '/' && (
-        <div
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          {deviceFound === false && (
-            <div>
-              <Typography>Searching For Dongle</Typography>
-              <RotatingLines
-                strokeColor="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="96"
-                visible={true}
-              />
-            </div>
-          )}
-          {deviceFound && (
-            <div>
-              <Typography>Searching For Phone</Typography>
-              <RotatingLines
-                strokeColor="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="96"
-                visible={true}
-              />
-            </div>
-          )}
-        </div>
-      )}
+  <div
+    style={pathname === '/' ? { height: '100%', touchAction: 'none' } : { height: '1px' }}
+    id="main"
+    className="App"
+    ref={mainElem}
+  >
+    {/* Nissan logo splash when no device yet */}
+    {(deviceFound === false || isLoading) && pathname === '/' && (
       <div
-        id="videoContainer"
-        onPointerDown={sendTouchEvent}
-        onPointerMove={sendTouchEvent}
-        onPointerUp={sendTouchEvent}
-        onPointerCancel={sendTouchEvent}
-        onPointerOut={sendTouchEvent}
         style={{
-          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
           width: '100%',
-          padding: 0,
-          margin: 0,
+          height: '100%',
           display: 'flex',
-          visibility: isPlugged ? 'visible' : 'hidden'
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'transparent',
+          zIndex: 10,           // make sure it sits above the canvas
         }}
       >
-        <canvas
-          ref={canvasRef}
-          id={'video'}
-          style={isPlugged ? { height: '100%' } : { height: '0%' }}
+        <img
+          src="/nissan_logo.png"
+          alt="Nissan Logo"
+          style={{
+            maxWidth: '80%',
+            maxHeight: '80%',
+          }}
         />
       </div>
+    )}
+
+    {/* Once a device is found, show the video canvas */}
+    <div
+      id="videoContainer"
+      onPointerDown={sendTouchEvent}
+      onPointerMove={sendTouchEvent}
+      onPointerUp={sendTouchEvent}
+      onPointerCancel={sendTouchEvent}
+      onPointerOut={sendTouchEvent}
+      style={{
+        height: '100%',
+        width: '100%',
+        padding: 0,
+        margin: 0,
+        display: 'flex',
+        visibility: isPlugged ? 'visible' : 'hidden',
+      }}
+    >
+      <canvas
+        ref={canvasRef}
+        id="video"
+        style={isPlugged ? { height: '100%' } : { height: '0%' }}
+      />
     </div>
-  )
-}
+  </div>
+)
 
 export default React.memo(Carplay)
