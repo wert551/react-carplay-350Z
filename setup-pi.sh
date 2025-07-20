@@ -32,17 +32,22 @@ if [ "" = "$PKG_OK" ]; then
   sudo apt-get --yes install $REQUIRED_PKG
 fi
 
-echo "Downloading AppImage"
+echo "Building local AppImage from source…"
 
-if getconf LONG_BIT | grep -q '64'; then
-	echo "64 Bit Detected"
- 	curl -L https://github.com/rhysmorgan134/react-carplay/releases/download/v4.0.5/react-carplay-4.0.5-arm64.AppImage --output /home/$USER/Desktop/Carplay.AppImage
-else
-	echo "32 Bit OS not supported"
- 	exit 1
-fi
+# 1) Enter your cloned React-CarPlay directory
+cd "/home/$USER/react-carplay-350Z"
 
-echo "Download Done"
+# 2) Install Node deps (including native modules)
+npm install
+
+# 3) Build the AppImage for ARM (arm64 on Pi 5)
+npm run build:armLinux
+
+# 4) Copy the generated AppImage to the desktop
+cp dist/*.AppImage "/home/$USER/Desktop/Carplay.AppImage"
+chmod +x "/home/$USER/Desktop/Carplay.AppImage"
+
+echo "Build Complete"
 
 echo "Creating executable"
 sudo chmod +x /home/$USER/Desktop/Carplay.AppImage
