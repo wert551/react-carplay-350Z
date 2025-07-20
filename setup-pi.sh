@@ -1,7 +1,11 @@
 #!/bin/bash
 
-#Set path to copy appimage and autolaunch location
-path="/home/$USER/Desktop/Carplay.AppImage"
+# location of the built AppImage on the user’s Desktop
+path="$HOME/Desktop/Carplay.AppImage"
+
+# make sure the Desktop folder exists
+mkdir -p "$HOME/Desktop"
+
 
 #create udev rule thats specific to carlinkit device
 echo "Creating udev rules"
@@ -51,6 +55,7 @@ npm install
 npm run build:armLinux
 
 # 4) Copy the generated AppImage to the desktop
+mkdir -p "/home/$USER/Desktop"
 cp dist/*.AppImage "/home/$USER/Desktop/Carplay.AppImage"
 chmod +x "/home/$USER/Desktop/Carplay.AppImage"
 
@@ -60,10 +65,13 @@ echo "Creating executable"
 sudo chmod +x /home/$USER/Desktop/Carplay.AppImage
 
 echo "Creating Autostart File"
-
-sudo bash -c "echo '[Desktop Entry]
-Name=File Manager
+sudo bash -c "cat > /etc/xdg/autostart/carplay.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=React CarPlay (350Z)
 Exec=/home/$USER/Desktop/Carplay.AppImage
-Type=Application' > /etc/xdg/autostart/carplay.desktop"
+Terminal=false
+X-GNOME-Autostart-enabled=true
+EOF"
 
 echo "All Done"
