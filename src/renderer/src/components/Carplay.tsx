@@ -14,6 +14,7 @@ import { ExtraConfig} from "../../../main/Globals";
 import { useCarplayStore, useStatusStore } from "../store/store";
 import { InitEvent } from './worker/render/RenderEvents'
 import { Typography } from "@mui/material";
+import NissanLogo from '../assets/nissan_logo.png';
 
 const width = window.innerWidth
 const height = window.innerHeight
@@ -237,7 +238,7 @@ function Carplay({ receivingVideo, setReceivingVideo, settings, command, command
         }}
       >
         <img
-          src="/nissan_logo.png"
+          src={NissanLogo}
           alt="Nissan Logo"
           style={{
             maxWidth: '80%',
