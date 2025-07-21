@@ -221,7 +221,7 @@ function Carplay({ receivingVideo, setReceivingVideo, settings, command, command
     className="App"
     ref={mainElem}
   >
-    {/* Nissan logo splash when no device yet */}
+    {/* an logo splash when no device yet */}
     {(deviceFound === false || isLoading) && pathname === '/' && (
       <div
         style={{
@@ -241,8 +241,8 @@ function Carplay({ receivingVideo, setReceivingVideo, settings, command, command
           src={NissanLogo}
           alt="Nissan Logo"
           style={{
-            maxWidth: '80%',
-            maxHeight: '80%',
+            maxWidth: '100%',
+            maxHeight: '100%',
           }}
         />
       </div>
