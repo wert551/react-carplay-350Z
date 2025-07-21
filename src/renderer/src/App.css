@@ -1,3 +1,8 @@
+/* hide scrollbar but still allow scrolling */
+body::-webkit-scrollbar {
+  display: none;
+}
+
 /* ————————— Global Black Background & White Text ————————— */
 html, body, #root, .App {
   background-color: #000;   /* black background everywhere */
@@ -39,7 +44,7 @@ body {
 }
 
 .App-link {
-    color: #61dafb;
+    color: #c4c4c4;
 }
 
 @keyframes App-logo-spin {
