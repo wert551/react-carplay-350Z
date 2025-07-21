@@ -35,6 +35,7 @@ const EXTRA_CONFIG: ExtraConfig = {
   kiosk: true,
   camera: '',
   microphone: '',
+  mediaDelay: 100,
   piMost: false,
   canbus: false,
   bindings: DEFAULT_BINDINGS,
